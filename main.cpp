@@ -3,16 +3,14 @@
 #include <chrono>
 #include <iostream>
 #include <eigen3/Eigen/Core>
-#include <opencv2/opencv.hpp>
 
 #include "CostFunction.h"
 
 using namespace std;
 using namespace Eigen;
-using namespace cv;
+
 int main()
 {
-    Mat wyb;
     //-------------------------------------------------first: POSE optimization problem
     double R[4] = {0.0, 0.0, 0.0, 0.0}; //use EPNP as init
     double T[3] = {0.0, 0.0, 0.0};

@@ -15,10 +15,10 @@ include_directories( ${CERES_INCLUDE_DIRS} )
 find_package(Eigen3 REQUIRED)
 include_directories( ${EIGEN3_INCLUDE_DIRS} )
 
-find_package(OpenCV REQUIRED)
-include_directories( ${OPENCV_INCLUDE_DIRS} )
+#find_package(OpenCV REQUIRED)
+#include_directories( ${OPENCV_INCLUDE_DIRS} )
 
 add_executable( ceres_curve_fitting main.cpp )
 # 与Ceres和OpenCV链接
-target_link_libraries( ceres_curve_fitting ${CERES_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries( ceres_curve_fitting ${CERES_LIBRARIES} )#${OpenCV_LIBS}
 #target_link_libraries( ceres_curve_fitting ${EIGEN_LIBRARIES} )
