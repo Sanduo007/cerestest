@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -O3 -O3 -DNDEBUG   CMakeFiles/ceres_curve_fitting.dir/main.cpp.o  -o ceres_curve_fitting -rdynamic /usr/local/lib/libceres.a -lglog -llapack -lblas -lgomp -lpthread 

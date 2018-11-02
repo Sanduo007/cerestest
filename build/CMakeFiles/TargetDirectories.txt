@@ -1,0 +1,3 @@
+/home/wyb/wyb/cerestest/build/CMakeFiles/edit_cache.dir
+/home/wyb/wyb/cerestest/build/CMakeFiles/rebuild_cache.dir
+/home/wyb/wyb/cerestest/build/CMakeFiles/ceres_curve_fitting.dir
