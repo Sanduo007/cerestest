@@ -1,6 +1,6 @@
 #include <ceres/ceres.h>
 #include <ceres/rotation.h>
-
+#include <eigen3/Eigen/Core>
 struct CURVE_FITTING_COST
 {
     CURVE_FITTING_COST(double _k1, double _k2, double _z) : k1(_k1), k2(_k2), z(_z) {}
@@ -22,20 +22,25 @@ struct CURVE_FITTING_COST
     const double k2;
     const double z;
 };
+/*
+brief: reproject error definition from 3d(World) to 2d(image,normalized uv)
+input: normalized uv(observed),3d points in world coordinate
+*/
 
-//input: normalized uv
 struct REPROJECT_COST
 {
-    REPROJECT_COST(double _observed_norm_u, double _observed_norm_v)
-        : observed_norm_u(_observed_norm_u), observed_norm_v(_observed_norm_u)
+    REPROJECT_COST(double _observed_norm_u, double _observed_norm_v, Eigen::Vector3d _pw)
+        : observed_norm_u(_observed_norm_u), observed_norm_v(_observed_norm_u), pw(_pw)
     {
     }
 
     template <typename T>
-    bool operator()(const T *const Rwc, const T *const Twc, const T *pw, T *residuals) const
+    bool operator()(const T *const Rwc, const T *const Twc, T *residuals) const
     {
         T pc[3];
-        ceres::QuaternionRotatePoint(Rwc, pw, pc);
+        T pwt[3] = {T(pw(0)), T(pw(1)), T(pw(2))};
+
+        ceres::QuaternionRotatePoint(Rwc, pwt, pc);
         pc[0] += Twc[0];
         pc[1] += Twc[1];
         pc[2] += Twc[2];
@@ -49,11 +54,12 @@ struct REPROJECT_COST
         return true;
     }
 
-    static ceres::CostFunction *Create(const double _observed_norm_u, const double _observed_norm_v)
+    static ceres::CostFunction *Create(const double _observed_norm_u, const double _observed_norm_v, const Eigen::Vector3d _pw)
     {
-        return (new ceres::AutoDiffCostFunction<REPROJECT_COST, 2, 4, 3, 3>(new REPROJECT_COST(_observed_norm_u, _observed_norm_v)));
+        return (new ceres::AutoDiffCostFunction<REPROJECT_COST, 2, 4, 3>(new REPROJECT_COST(_observed_norm_u, _observed_norm_v, _pw)));
     }
 
     double observed_norm_u;
     double observed_norm_v;
+    Eigen::Vector3d pw;
 };

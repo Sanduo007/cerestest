@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "chrono": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "vector": "cpp",
+        "core": "cpp"
     }
 }
